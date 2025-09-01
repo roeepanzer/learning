@@ -6,7 +6,20 @@
   <title>Plant Monitor – Hello</title>
 </head>
 <body>
-  <h1>It works! 🌱</h1>
-  <p>Deployed via GitHub Pages. I can open this on my phone.</p>
+  <h1>Plant Monitor – Live (Demo)</h1>
+  <canvas id="tempChart" width="400" height="200"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('tempChart');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['t0','t1','t2','t3','t4'],
+        datasets: [{ label: 'Temp °C', data: [24.1, 24.3, 24.7, 24.5, 24.9] }]
+      }
+    });
+  </script>
 </body>
+
 </html>
