@@ -38,9 +38,29 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  const timestampRef = ref(db, 'sensors/esp32_1/timestamp');
-  onValue(tempRef, (snapshot) => {
-    document.body.innerHTML = "Timestamp: " + snapshot.val();
+  // const timestampRef = ref(db, 'sensors/esp32_1/timestamp');
+  // onValue(tempRef, (snapshot) => {
+  //   document.body.innerHTML = "Timestamp: " + snapshot.val();
+
+    async function testConnection() {
+      try {
+        // Write test value
+        await set(ref(db, 'test/connection'), { status: "ok", time: Date.now() });
+
+        // Read it back
+        const snapshot = await get(ref(db, 'test/connection'));
+        if (snapshot.exists()) {
+          document.getElementById("status").innerText =
+            "Connected! Value in DB: " + JSON.stringify(snapshot.val());
+        } else {
+          document.getElementById("status").innerText = "No data found.";
+        }
+      } catch (err) {
+        document.getElementById("status").innerText = "Error: " + err;
+      }
+    }
+
+    testConnection();
   });
 </script>
 </body>
