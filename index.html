@@ -20,6 +20,29 @@
       }
     });
   </script>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
+    authDomain: "learning-d6e02.firebaseapp.com",
+    databaseURL: "https://learning-d6e02-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "learning-d6e02",
+    storageBucket: "learning-d6e02.firebasestorage.app",
+    messagingSenderId: "119584364745",
+    appId: "1:119584364745:web:62fe63a64dddbc8c329518",
+    measurementId: "G-85VLDXL87W"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const timestampRef = ref(db, 'sensors/esp32_1/timestamp');
+  onValue(tempRef, (snapshot) => {
+    document.body.innerHTML = "Timestamp: " + snapshot.val();
+  });
+</script>
 </body>
 
 </html>
