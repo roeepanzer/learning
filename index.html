@@ -22,6 +22,52 @@
     const statusEl = document.getElementById('status');
     const log = (...args) => { console.log(...args); logEl.textContent += args.join(' ') + '\n'; };
 
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    log('SDK loaded');
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
+      authDomain: "learning-d6e02.firebaseapp.com",
+      databaseURL: "https://learning-d6e02-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "learning-d6e02",
+      storageBucket: "learning-d6e02.firebasestorage.app",
+      messagingSenderId: "119584364745",
+      appId: "1:119584364745:web:62fe63a64dddbc8c329518",
+      measurementId: "G-85VLDXL87W"
+    };
+    log('Config:', JSON.stringify(firebaseConfig, null, 2));
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    async function testConnection() {
+      try {
+        // Write test value
+        await set(ref(db, 'test/connection'), { status: "ok", time: Date.now() });
+        log('Write succeeded at /' + path, JSON.stringify(value));
+        
+        // Read it back
+        const snapshot = await get(ref(db, 'test/connection'));
+        if (snapshot.exists()) {
+          document.getElementById("status").innerText =
+            "Connected! Value in DB: " + JSON.stringify(snapshot.val());
+        } else {
+          document.getElementById("status").innerText = "No data found.";
+        }
+      } catch (err) {
+        document.getElementById("status").innerText = "Error: " + err;
+      }
+    }
+
+    run();
+  </script>
+  
+<!--   <script type="module">
+    const logEl = document.getElementById('log');
+    const statusEl = document.getElementById('status');
+    const log = (...args) => { console.log(...args); logEl.textContent += args.join(' ') + '\n'; };
+
     // 1) Import SDKs
     try {
       var { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js');
@@ -87,6 +133,6 @@
     }
 
     run();
-  </script>
+  </script> -->
 </body>
 </html>
