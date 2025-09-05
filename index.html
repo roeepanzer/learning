@@ -18,12 +18,12 @@
   <pre id="log"></pre>
 
   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+    
     const logEl = document.getElementById('log');
     const statusEl = document.getElementById('status');
     const log = (...args) => { console.log(...args); logEl.textContent += args.join(' ') + '\n'; };
-
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
     log('SDK loaded');
     
     const firebaseConfig = {
@@ -41,26 +41,34 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    async function testConnection() {
-      try {
-        // Write test value
-        await set(ref(db, 'test/connection'), { status: "ok", time: Date.now() });
-        log('Write succeeded at /' + path, JSON.stringify(value));
-        
-        // Read it back
-        const snapshot = await get(ref(db, 'test/connection'));
-        if (snapshot.exists()) {
-          document.getElementById("status").innerText =
-            "Connected! Value in DB: " + JSON.stringify(snapshot.val());
-        } else {
-          document.getElementById("status").innerText = "No data found.";
-        }
-      } catch (err) {
-        document.getElementById("status").innerText = "Error: " + err;
-      }
-    }
+    //Until here all works ok
 
-    run();
+    async function testConn() {
+      set(ref(db, 'test/connection'), {status: "ok", timeStamp: Date.now() });
+      log('Write succeeded);
+    }
+    
+    // async function testConnection() {
+    //   try {
+    //     // Write test value
+    //     await set(ref(db, 'test/connection'), { status: "ok", time: Date.now() });
+    //     log('Write succeeded at /' + path, JSON.stringify(value));
+        
+    //     // Read it back
+    //     const snapshot = await get(ref(db, 'test/connection'));
+    //     if (snapshot.exists()) {
+    //       document.getElementById("status").innerText =
+    //         "Connected! Value in DB: " + JSON.stringify(snapshot.val());
+    //     } else {
+    //       document.getElementById("status").innerText = "No data found.";
+    //     }
+    //   } catch (err) {
+    //     document.getElementById("status").innerText = "Error: " + err;
+    //   }
+    // }
+
+    // run();
+    testConn();
   </script>
   
 <!--   <script type="module">
