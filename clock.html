@@ -1,6 +1,52 @@
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Live clock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body { font-family: system-ui, Arial, sans-serif; max-width: 800px; margin: 2rem auto; line-height: 1.4; }
+      pre { background: #f6f8fa; padding: 1rem; overflow: auto; }
+      .ok { color: #0a7f00; }
+      .err { color: #b00020; }
+      #clock {
+        font-size: 2rem;
+        font-weight: bold;
+        background: #fff;
+        padding: 20px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Live Clock to see if it's really live from my phone as well</h1>
+
+    <div id="clock">Loading...</div>
+
+    <script>
+      function updateClock() {
+        const now = new Date();
   
-</head>
-<body>
+        // Format HH:MM:SS
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
   
-</body>
+        // Format DD.MM.YYYY
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = now.getFullYear();
+  
+        const timeString = `${hours}:${minutes}:${seconds}`;
+        const dateString = `${day}.${month}.${year}`;
+  
+        document.getElementById('clock').textContent = `${timeString}  ${dateString}`;
+      }
+  
+      // Update immediately, then every second
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
+  </body>
+</html>
