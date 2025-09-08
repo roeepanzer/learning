@@ -21,9 +21,9 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
     
-    const logEl = document.getElementById('log');
-    const statusEl = document.getElementById('status');
-    const log = (...args) => { console.log(...args); logEl.textContent += args.join(' ') + '\n'; };
+    // const logEl = document.getElementById('log');
+    // const statusEl = document.getElementById('status');
+    const log = (...args) => { console.log(...args); document.getElementById('log') += args.join(' ') + '\n'; };
     log('SDK loaded');
     
     const firebaseConfig = {
@@ -46,6 +46,7 @@
     async function testConn() {
       set(ref(db, 'test/connection'), {status: "ok", timeStamp: Date.now() });
       log('Write succeeded');
+      status(
     }
     
     // async function testConnection() {
