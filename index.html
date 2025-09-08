@@ -23,8 +23,9 @@
     
     // const logEl = document.getElementById('log');
     const statusEl = document.getElementById('status');
-    const log = (...args) => { console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };
-    log('SDK loaded');
+    //Working. Sends data to both the console in the F12 and to the log area. using it with log(message);
+    const log = (...args) => { console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };  
+    log('SDK');
     
     const firebaseConfig = {
       apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
@@ -48,6 +49,10 @@
       set(ref(db, 'test/connection'), {status: "ok", timeStamp: Date.now() });
       log('Write succeeded');
     };
+
+    function approved() {
+      statusEl.textContent = 'succeeded!';
+    }
     
     // async function testConnection() {
     //   try {
@@ -70,6 +75,7 @@
 
     // run();
     testConn();
+    approved();
   </script>
   
 <!--   <script type="module">
