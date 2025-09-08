@@ -23,7 +23,7 @@
     
     // const logEl = document.getElementById('log');
     const statusEl = document.getElementById('status');
-    const log = (...args) => { console.log(...args); document.getElementById('log') += args.join(' ') + '\n'; };
+    const log = (...args) => { console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };
     log('SDK loaded');
     
     const firebaseConfig = {
