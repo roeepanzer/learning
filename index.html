@@ -15,6 +15,8 @@
   <h1>Firebase Realtime Database — Diagnostic</h1>
   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a>
   <div id="status">Initializing…</div>
+  <div id="valueString">noStringValueAvailable</div>
+  <div id="general">noGeneralValueAvailable</div>
   <h3>Logs</h3>
   <pre id="log"></pre>
 
@@ -24,9 +26,11 @@
     
     // const logEl = document.getElementById('log');
     const statusEl = document.getElementById('status');
+    const StringEl = document.getElementById('valueString');
+    const GeneralEl = document.getElementById('general');
     //Working. Sends data to both the console in the F12 and to the log area. using it with log(message);
     const log = (...args) => { console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };  
-    log('SDK');
+    // log('SDK');
     
     const firebaseConfig = {
       apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
@@ -38,13 +42,37 @@
       appId: "1:119584364745:web:62fe63a64dddbc8c329518",
       measurementId: "G-85VLDXL87W"
     };
-    log('Config:', JSON.stringify(firebaseConfig, null, 2));
+    // log('Config:', JSON.stringify(firebaseConfig, null, 2));
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
     //Until here all works ok
 
+    async function onValueLiveStringData() {
+      onValue(ref(db, 'test/string'), (snapshot) => {
+        if(snapshot.exists()) {
+          const value = snapshot.val();
+          log("string value is: " + value);
+          StringEl.textContent = value;
+        }
+      });
+    }
+    
+    async function onValueLiveGeneralData() {
+      onValue(ref(db, 'test'), (snapshot) => {
+        if(snapshot.exists()) {
+          const value = snapshot.val();
+          log("---------");
+          log("General value is: " + value);
+          log("int value is: " + value.int);
+          log("float value is: " + value.float);
+          log("---------");
+          GeneralEl.textContent = value;
+        }
+      });
+    }
+    
     async function testConn() {
       statusEl.textContent = 'Writing test value…';
       set(ref(db, 'test/connection'), {status: "ok", timeStamp: Date.now() });
@@ -75,8 +103,11 @@
     // }
 
     // run();
-    testConn();
-    approved();
+    // testConn();
+    // approved();
+    onValueLiveStringData();
+    onValueLiveGeneralData();
+    
   </script>
   
 <!--   <script type="module">
