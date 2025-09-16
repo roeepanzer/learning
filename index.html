@@ -61,6 +61,33 @@
       });
     }
 
+    async function liveHumid() {
+      onValue(ref(db, 'liveData/humid'), (snapshot) => {
+        if(snapshot.exists()) {
+          const value = snapshot.val();
+          humidEl.textContent = value;
+        }
+      });
+    }
+
+    async function liveTemp() {
+      onValue(ref(db, 'liveData/temp'), (snapshot) => {
+        if(snapshot.exists()) {
+          const value = snapshot.val();
+          tempEl.textContent = value;
+        }
+      });
+    }
+
+    async function liveLight() {
+      onValue(ref(db, 'liveData/light'), (snapshot) => {
+        if(snapshot.exists()) {
+          const value = snapshot.val();
+          lightEl.textContent = value;
+        }
+      });
+    }
+    
     async function liveData() {
       onValue(ref(db, 'liveData'), (snapshot) => {
         if()snapshot.exists()) {
@@ -119,7 +146,12 @@
     // testConn();
     // approved();
 
-    liveData();
+    // liveData();
+    liveLight();
+    liveTemp();
+    liveHumid();
+    
+    
     
   </script>
   
