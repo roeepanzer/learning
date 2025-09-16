@@ -90,7 +90,7 @@
     
     async function liveData() {
       onValue(ref(db, 'liveData'), (snapshot) => {
-        if()snapshot.exists()) {
+        if(snapshot.exists()) {
           const value = snapshot.val();
           lightEl.textContent = value.light;
           tempEl.textContent = value.temp;
