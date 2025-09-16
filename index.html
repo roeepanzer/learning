@@ -14,24 +14,30 @@
 <body>
   <h1>Firebase Realtime Database — Diagnostic</h1>
   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a>
-  <div id="status">Initializing…</div>
-  <div id="valueString">noStringValueAvailable</div>
-  <div id="general">noGeneralValueAvailable</div>
-  <h3>Logs</h3>
-  <pre id="log"></pre>
+<!--   <div id="status">Initializing…</div> -->
+<!--   <div id="valueString">noStringValueAvailable</div> -->
+<!--   <div id="general">noGeneralValueAvailable</div> -->
+  <h2>Light:<div id="lightView">NoLight</div></h2>
+  <h2>Temp:<div id="tempView">NoTemp</div></h2>
+  <h2>Humidity:<div id="humidView">NoHumidity</div></h2>
+<!--   <h3>Logs</h3> -->
+<!--   <pre id="log"></pre> -->
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
     
-    // const logEl = document.getElementById('log');
-    const statusEl = document.getElementById('status');
-    const StringEl = document.getElementById('valueString');
-    const GeneralEl = document.getElementById('general');
+    // const log = document.getElementById('log');
+    // const statusEl = document.getElementById('status');
+    // const StringEl = document.getElementById('valueString');
+    // const GeneralEl = document.getElementById('general');
     //Working. Sends data to both the console in the F12 and to the log area. using it with log(message);
-    const log = (...args) => { console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };  
-    // log('SDK');
-    
+    // const log = (...args) => {console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };
+
+    const lightEl = document.getElementById('lightView');
+    const tempEl = document.getElementById('tempView');
+    const humidEl = document.getElementById('humidView');
+
     const firebaseConfig = {
       apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
       authDomain: "learning-d6e02.firebaseapp.com",
@@ -42,12 +48,8 @@
       appId: "1:119584364745:web:62fe63a64dddbc8c329518",
       measurementId: "G-85VLDXL87W"
     };
-    // log('Config:', JSON.stringify(firebaseConfig, null, 2));
-
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-
-    //Until here all works ok
 
     async function onValueLiveStringData() {
       onValue(ref(db, 'test/string'), (snapshot) => {
@@ -55,6 +57,17 @@
           const value = snapshot.val();
           log("string value is: " + value);
           StringEl.textContent = value;
+        }
+      });
+    }
+
+    async function liveData() {
+      onValue(ref(db, 'liveData'), (snapshot) => {
+        if()snapshot.exists()) {
+          const value = snapshot.val();
+          lightEl.textContent = value.light;
+          tempEl.textContent = value.temp;
+          humidEl.textContent = value.humid;
         }
       });
     }
@@ -105,8 +118,8 @@
     // run();
     // testConn();
     // approved();
-    onValueLiveStringData();
-    onValueLiveGeneralData();
+
+    liveData();
     
   </script>
   
