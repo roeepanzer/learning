@@ -91,13 +91,37 @@
 </head>
 <body>
   <h1>Firebase Realtime Database — Diagnostic</h1>
-  <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a>
+<!--   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a> -->
+  <div id="clock">Loading...</div>
+    <script>
+      function updateClock() {
+        const now = new Date();
+  
+        // Format HH:MM:SS
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+  
+        // Format DD.MM.YYYY
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = now.getFullYear();
+  
+        const timeString = `${hours}:${minutes}:${seconds}`;
+        const dateString = `${day}.${month}.${year}`;
+  
+        document.getElementById('clock').textContent = `${timeString}  ${dateString}`;
+      }
+      // Update immediately, then every second
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
   
   <div class="gauges">
     <section class="gauge" data-type="light">
       <div class="gauge__title">Light</div>
       <div class="gauge__dial">
-        <div class="gauge__value">234.56</div>
+        <div class="gauge__value" id="lightView">NoLight</div>
         <div class="gauge__unit">lux</div>
       </div>
     </section>
@@ -105,7 +129,7 @@
     <section class="gauge" data-type="temp">
       <div class="gauge__title">Temperature</div>
       <div class="gauge__dial">
-        <div class="gauge__value">23.6</div>
+        <div class="gauge__value" id="tempView">NoTemp</div>
         <div class="gauge__unit">&deg;C</div>
       </div>
     </section>
@@ -113,15 +137,11 @@
     <section class="gauge" data-type="hum">
       <div class="gauge__title">humidity</div>
       <div class="gauge__dial">
-        <div class="gauge__value">56.3</div>
+        <div class="gauge__value" id="humidView">noHumid</div>
         <div class="gauge__unit">%</div>
       </div>
     </section>
   </div>
-
-  <h2>Light:<div id="lightView">NoLight</div></h2>
-  <h2>Temp:<div id="tempView">NoTemp</div></h2>
-  <h2>Humidity:<div id="humidView">NoHumidity</div></h2>
 <!--   <h3>Logs</h3> -->
 <!--   <pre id="log"></pre> -->
 
