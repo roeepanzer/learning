@@ -9,11 +9,115 @@
     pre { background: #f6f8fa; padding: 1rem; overflow: auto; }
     .dataCircles {}
     #lightView {}
+    
+    /* Layout */
+    .gauges{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:flex-start;
+      gap:clamp(16px,4vw,40px);
+      padding:clamp(10px,3vw,24px);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    
+    /* One gauge */
+    .gauge{
+      text-align:center;
+      --ring: rgba(0,0,0,0.85);
+    }
+    
+    /* Titles above the circles */
+    .gauge__title{
+      font-weight:700;
+      letter-spacing:.5px;
+      margin-bottom:8px;
+      font-size:clamp(18px,2.8vw,28px);
+    }
+    
+    /* The circle */
+    .gauge__dial{
+      position:relative;
+      width:clamp(160px,26vw,240px);
+      aspect-ratio:1/1;
+      border-radius:50%;
+      border:4px solid var(--ring);
+      background:var(--bg, #eee);
+      display:grid;
+      place-items:center;
+      box-shadow: inset 0 1px 0 rgba(0,0,0,0.25);
+    }
+    
+    /* Slightly “hand-drawn” outer ring */
+    .gauge__dial::after{
+      content:"";
+      position:absolute;
+      inset:-6px;
+      border-radius:50%;
+      border:3px solid var(--ring);
+      transform:rotate(-5deg) scale(1.018);
+      pointer-events:none;
+    }
+    
+    /* Big number in the middle */
+    .gauge__value{
+      font-weight:800;
+      line-height:1;
+      font-size:clamp(38px,6vw,64px);
+    }
+    
+    /* Unit at the bottom of the circle */
+    .gauge__unit{
+      position:absolute;
+      bottom:16px;
+      left:50%;
+      transform:translateX(-50%);
+      font-weight:700;
+      font-size:clamp(14px,2.2vw,20px);
+    }
+    
+    /* Colors per gauge (matched to your mockup) */
+    .gauge[data-type="light"]  { --bg:#FBE79A; }  /* pastel yellow */
+    .gauge[data-type="temp"]   { --bg:#BFE1FF; }  /* pastel blue   */
+    .gauge[data-type="hum"]    { --bg:#BFEBC5; }  /* pastel green  */
+    
+    /* Optional: a little breathing room on small screens */
+    @media (max-width:520px){
+      .gauge__title{ margin-bottom:6px; }
+      .gauge__unit{ bottom:14px; }
+    }
   </style>
 </head>
 <body>
   <h1>Firebase Realtime Database — Diagnostic</h1>
   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a>
+  
+  <div class="gauges">
+    <section class="gauge" data-type="light">
+      <div class="gauge__title">Light</div>
+      <div class="gauge__dial">
+        <div class="gauge__value">234.56</div>
+        <div class="gauge__unit">lux</div>
+      </div>
+    </section>
+  
+    <section class="gauge" data-type="temp">
+      <div class="gauge__title">Temperature</div>
+      <div class="gauge__dial">
+        <div class="gauge__value">23.6</div>
+        <div class="gauge__unit">&deg;C</div>
+      </div>
+    </section>
+  
+    <section class="gauge" data-type="hum">
+      <div class="gauge__title">humidity</div>
+      <div class="gauge__dial">
+        <div class="gauge__value">56.3</div>
+        <div class="gauge__unit">%</div>
+      </div>
+    </section>
+  </div>
+
   <h2>Light:<div id="lightView">NoLight</div></h2>
   <h2>Temp:<div id="tempView">NoTemp</div></h2>
   <h2>Humidity:<div id="humidView">NoHumidity</div></h2>
