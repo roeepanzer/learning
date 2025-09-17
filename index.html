@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Firebase Realtime Database — Diagnostic</h1>
+  <h1>Firebase Realtime Database</h1>
 <!--   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a> -->
   <div>The current time: <div id="clock">Loading...</div></div>
     <script>
@@ -58,10 +58,24 @@
         <div class="gauge__unit">%</div>
       </div>
     </section>
+
+    <section class="gauge" data-type="wind">
+      <div class="gauge__title">wind speed</div>
+      <div class="gauge__dial">
+        <div class="gauge__value" id="windView">noWind</div>
+        <div class="gauge__unit">km/h</div>
+      </div>
+    </section>
   </div>
 <!--   <h3>Logs</h3> -->
 <!--   <pre id="log"></pre> -->
-
+  <h2>Weather Forcast</h2>
+  
+  <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+  
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
