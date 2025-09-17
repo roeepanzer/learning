@@ -2,21 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Firebase RTDB Diagnostic</title>
+  <title>Grow tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body { font-family: system-ui, Arial, sans-serif; max-width: 800px; margin: 2rem auto; line-height: 1.4; }
     pre { background: #f6f8fa; padding: 1rem; overflow: auto; }
-    .ok { color: #0a7f00; }
-    .err { color: #b00020; }
+    .dataCircles {}
+    #lightView {}
   </style>
 </head>
 <body>
   <h1>Firebase Realtime Database — Diagnostic</h1>
   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a>
-<!--   <div id="status">Initializing…</div> -->
-<!--   <div id="valueString">noStringValueAvailable</div> -->
-<!--   <div id="general">noGeneralValueAvailable</div> -->
   <h2>Light:<div id="lightView">NoLight</div></h2>
   <h2>Temp:<div id="tempView">NoTemp</div></h2>
   <h2>Humidity:<div id="humidView">NoHumidity</div></h2>
@@ -27,13 +24,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
     
-    // const log = document.getElementById('log');
-    // const statusEl = document.getElementById('status');
-    // const StringEl = document.getElementById('valueString');
-    // const GeneralEl = document.getElementById('general');
-    //Working. Sends data to both the console in the F12 and to the log area. using it with log(message);
     // const log = (...args) => {console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };
-
     const lightEl = document.getElementById('lightView');
     const tempEl = document.getElementById('tempView');
     const humidEl = document.getElementById('humidView');
@@ -50,16 +41,6 @@
     };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-
-    async function onValueLiveStringData() {
-      onValue(ref(db, 'test/string'), (snapshot) => {
-        if(snapshot.exists()) {
-          const value = snapshot.val();
-          log("string value is: " + value);
-          StringEl.textContent = value;
-        }
-      });
-    }
 
     async function liveHumid() {
       onValue(ref(db, 'liveData/humid'), (snapshot) => {
@@ -88,17 +69,6 @@
       });
     }
     
-    async function liveData() {
-      onValue(ref(db, 'liveData'), (snapshot) => {
-        if(snapshot.exists()) {
-          const value = snapshot.val();
-          lightEl.textContent = value.light;
-          tempEl.textContent = value.temp;
-          humidEl.textContent = value.humid;
-        }
-      });
-    }
-    
     async function onValueLiveGeneralData() {
       onValue(ref(db, 'test'), (snapshot) => {
         if(snapshot.exists()) {
@@ -118,113 +88,10 @@
       set(ref(db, 'test/connection'), {status: "ok", timeStamp: Date.now() });
       log('Write succeeded');
     };
-
-    function approved() {
-      statusEl.textContent = 'succeeded!';
-    }
-    
-    // async function testConnection() {
-    //   try {
-    //     // Write test value
-    //     await set(ref(db, 'test/connection'), { status: "ok", time: Date.now() });
-    //     log('Write succeeded at /' + path, JSON.stringify(value));
-        
-    //     // Read it back
-    //     const snapshot = await get(ref(db, 'test/connection'));
-    //     if (snapshot.exists()) {
-    //       document.getElementById("status").innerText =
-    //         "Connected! Value in DB: " + JSON.stringify(snapshot.val());
-    //     } else {
-    //       document.getElementById("status").innerText = "No data found.";
-    //     }
-    //   } catch (err) {
-    //     document.getElementById("status").innerText = "Error: " + err;
-    //   }
-    // }
-
-    // run();
-    // testConn();
-    // approved();
-
-    // liveData();
+  
     liveLight();
     liveTemp();
     liveHumid();
-    
-    
-    
   </script>
-  
-<!--   <script type="module">
-    const logEl = document.getElementById('log');
-    const statusEl = document.getElementById('status');
-    const log = (...args) => { console.log(...args); logEl.textContent += args.join(' ') + '\n'; };
-
-    // 1) Import SDKs
-    try {
-      var { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js');
-      var { getDatabase, ref, set, get, child } = await import('https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js');
-      log('SDK loaded');
-    } catch (e) {
-      statusEl.innerHTML = '<span class="err">Failed to load Firebase SDK.</span>';
-      log('SDK load error:', e);
-      throw e;
-    }
-
-    // 2) Your project config (copy EXACTLY from Firebase Console → Project settings → Web app "Config")
-    const firebaseConfig = {
-      apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
-      authDomain: "learning-d6e02.firebaseapp.com",
-      databaseURL: "https://learning-d6e02-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "learning-d6e02",
-      storageBucket: "learning-d6e02.firebasestorage.app",
-      messagingSenderId: "119584364745",
-      appId: "1:119584364745:web:62fe63a64dddbc8c329518",
-      measurementId: "G-85VLDXL87W"
-    };
-    log('Config:', JSON.stringify(firebaseConfig, null, 2));
-
-    // 3) Initialize
-    let app, db;
-    try {
-      app = initializeApp(firebaseConfig);
-      db = getDatabase(app);
-      log('Firebase initialized.');
-    } catch (e) {
-      statusEl.innerHTML = '<span class="err">Initialization failed.</span>';
-      log('Init error:', e);
-      throw e;
-    }
-
-    // 4) Write, then read
-    async function run() {
-      try {
-        statusEl.textContent = 'Writing test value…';
-        const path = 'test/connection';
-        const value = { status: 'ok', time: Date.now() };
-        await set(ref(db, path), value);
-        log('Write succeeded at /' + path, JSON.stringify(value));
-
-        statusEl.textContent = 'Reading back…';
-        const snapshot = await get(child(ref(db), path));
-        if (snapshot.exists()) {
-          statusEl.innerHTML = '<span class="ok">Success! Data found.</span>';
-          log('Read value:', JSON.stringify(snapshot.val()));
-        } else {
-          statusEl.innerHTML = '<span class="err">No data found at /' + path + '.</span>';
-          log('Snapshot empty.');
-        }
-      } catch (e) {
-        statusEl.innerHTML = '<span class="err">Error occurred. See logs below.</span>';
-        log('Error details:', e?.code || '', e?.message || e);
-        // Common Firebase RTDB error codes:
-        // PERMISSION_DENIED → Rules disallow read/write.
-        // NETWORK_REQUEST_FAILED → Connectivity/CORS/blocked imports.
-        // INVALID_ARGUMENT → Often misconfigured databaseURL.
-      }
-    }
-
-    run();
-  </script> -->
 </body>
 </html>
