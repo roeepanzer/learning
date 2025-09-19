@@ -1,7 +1,19 @@
-body { font-family: system-ui, Arial, sans-serif; max-width: min-width: 200px; auto; margin: 2rem auto; line-height: 1.4; }
-pre { background: #f6f8fa; padding: 1rem; overflow: auto; }
-.dataCircles {}
-#lightView {}
+body { 
+  font-family: system-ui, Arial, sans-serif; 
+  max-width: auto; 
+  min-width: 200px; 
+  margin: 2rem auto; 
+  line-height: 1.4; 
+}
+pre { 
+  background: #f6f8fa;
+  padding: 1rem;
+  overflow: auto;
+}
+
+h1 {
+  max-width: 50%;
+}
 
 .weatherwidget-io{
   width: auto;
