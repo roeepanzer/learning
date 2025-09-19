@@ -12,8 +12,11 @@ pre {
 }
 
 h1 {
-  max-width: 50%;
-  left: 0%
+  position: relative;
+  width: 50%;
+  left: 0%;
+  right: 50%;
+  top: 0px;
 }
 
 #notification {
