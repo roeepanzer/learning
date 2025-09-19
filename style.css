@@ -20,6 +20,7 @@ h1 {
   position: absolut;
   top: 0%;
   right: 0%;
+  left: 50%;
   border: 3px, solid, black;
 }
 
