@@ -1,4 +1,4 @@
-body { 
+ody { 
   font-family: system-ui, Arial, sans-serif; 
   max-width: auto; 
   min-width: 200px; 
@@ -13,13 +13,13 @@ pre {
 
 h1 {
   max-width: 50%;
+  left: 0%
 }
 
 #notification {
   max-width: 50%;
-  position: absolut;
-  top: 0%;
-  right: 0%;
+  position: fixed;
+  top: 0px;
   left: 50%;
   border: 3px, solid, black;
 }
