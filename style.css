@@ -78,5 +78,5 @@ pre { background: #f6f8fa; padding: 1rem; overflow: auto; }
 @media (max-width:520px){
   .gauge__title{ margin-bottom:6px; }
   .gauge__unit{ bottom:14px; }
-  .gauges{ flex-wrap:nowrap; /* force single row */}
+/*   .gauges{ flex-wrap:nowrap; /* force single row */} */
 }
