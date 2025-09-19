@@ -3,6 +3,10 @@ pre { background: #f6f8fa; padding: 1rem; overflow: auto; }
 .dataCircles {}
 #lightView {}
 
+.weatherwidget-io{
+  width: auto;
+}
+
 /* Layout */
 .gauges{
   display:flex;
