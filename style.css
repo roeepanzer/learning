@@ -19,7 +19,7 @@ h1 {
 #notification {
   width: 50%;
   height: 5%;
-  position: fixed;
+  position: relative;
   top: 0px;
   left: 50%;
   border: 3px, solid, black;
