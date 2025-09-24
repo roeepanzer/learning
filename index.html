@@ -75,22 +75,29 @@
   <div id="weather">
     <h2>Current weather</h2>
     <div id="liveWeather">
-      <p>Temperature: </p><div id="tempAPI"></div><p>&deg;C</p>
-      <p>Relative Humidity: </p><div id="humidAPI"></div><p>%</p>
-      <p>Precipitations: </p><div id="precipAPI"></div><p>mm</p>
-      <p>Wind Speed: </p><div id="windSpAPI"></div><p>km/h</p>
-      <p>Wind Gusts: </p><div id="windGuAPI"></div><p>km/h</p>
-      <p>Wind direction: </p><div id="windDiAPI"></div><p>&deg;</p>
+      <p>Name: </p><p id="name">n</p>
+      <p>age: </p><p id="age">n</p>
+      <p>city: </p><p id="city">n</p>
+      <p>Temperature: </p><p id="tempAPI"></p><p>&deg;C</p>
+      <p>Relative Humidity: </p><p id="humidAPI"></p><p>%</p>
+      <p>Precipitations: </p><p id="precipAPI"></p><p>mm</p>
+      <p>Wind Speed: </p><p id="windSpAPI"></p><p>km/h</p>
+      <p>Wind Gusts: </p><p id="windGuAPI"></p><p>km/h</p>
+      <p>Wind direction: </p><p id="windDiAPI"></p><p>&deg;</p>
     </div>
     <script>
-      const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
+      const url = "https://mp6714666b31589cff1e.free.beeceptor.com/dataRoee";
+      //const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
       let jsonResult = getWeather(url);
-      document.getElementById("tempAPI").innerHTML = getValue(jsonResult, "tempAPI");
-      document.getElementById("humidAPI").innerHTML = getValue(jsonResult, "humidAPI");
-      document.getElementById("precipAPI").innerHTML = getValue(jsonResult, "precipAPI");
-      document.getElementById("windSpAPI").innerHTML = getValue(jsonResult, "windSpAPI");
-      document.getElementById("windGuAPI").innerHTML = getValue(jsonResult, "windGuAPI");
-      document.getElementById("windDiAPI").innerHTML = getValue(jsonResult, "windDiAPI");
+      // document.getElementById("tempAPI").innerHTML = getValue(jsonResult, "tempAPI");
+      // document.getElementById("humidAPI").innerHTML = getValue(jsonResult, "humidAPI");
+      // document.getElementById("precipAPI").innerHTML = getValue(jsonResult, "precipAPI");
+      // document.getElementById("windSpAPI").innerHTML = getValue(jsonResult, "windSpAPI");
+      // document.getElementById("windGuAPI").innerHTML = getValue(jsonResult, "windGuAPI");
+      // document.getElementById("windDiAPI").innerHTML = getValue(jsonResult, "windDiAPI");
+      document.getElementById("name").innerHTML = getValue(jsonResult, "name");
+      document.getElementById("age").innerHTML = getValue(jsonResult, "age");
+      document.getElementById("city").innerHTML = getValue(jsonResult, "city");
       
       async function getWeather(url) {
         try {
@@ -125,6 +132,15 @@
             break;
           case "windDiAPI":
             return jsonResult.current.wind_direction_10m;
+            break;
+          case "name":
+            return jsonResult.name;
+            break;
+          case "age":
+            return jsonResult.values.age;
+            break;
+          case "city":
+            return jsonResult.values.city;
             break;
         }
       }
