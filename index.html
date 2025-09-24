@@ -7,10 +7,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Firebase Realtime Database</h1>
-  <div id="notification">This is a notification</div>
+  <div id="headline">
+    <h1>Firebase Realtime Database</h1>
+    <div id="notification">This is a notification</div>
+  </div>
 <!--   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a> -->
-  <div>The current time: <div id="clock">Loading...</div></div>
+  <div id="clockArea">The current time: <div id="clock">Loading...</div></div>
     <script>
       function updateClock() {
         const now = new Date();
@@ -28,7 +30,7 @@
         const timeString = `${hours}:${minutes}:${seconds}`;
         const dateString = `${day}.${month}.${year}`;
   
-        document.getElementById('clock').textContent = `${timeString}  ${dateString}`;
+        document.getElementById('clock').textContent = `${dateString}   ${timeString}`;
       }
       // Update immediately, then every second
       updateClock();
@@ -61,7 +63,7 @@
     </section>
 
     <section class="gauge" data-type="wind">
-      <div class="gauge__title">wind speed</div>
+      <div class="gauge__title">Wind</div>
       <div class="gauge__dial">
         <div class="gauge__value" id="windView">noWind</div>
         <div class="gauge__unit">km/h</div>
@@ -70,12 +72,69 @@
   </div>
 <!--   <h3>Logs</h3> -->
 <!--   <pre id="log"></pre> -->
-  <h2>Weather Forcast</h2>
-  
-  <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
-<script>
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-</script>
+  <div id="weather">
+    <h2>Current weather</h2>
+    <div id="liveWeather">
+      <p>Temperature: </p><div id="tempAPI"></div><p>&deg;C</p>
+      <p>Relative Humidity: </p><div id="humidAPI"></div><p>%</p>
+      <p>Precipitations: </p><div id="precipAPI"></div><p>mm</p>
+      <p>Wind Speed: </p><div id="windSpAPI"></div><p>km/h</p>
+      <p>Wind Gusts: </p><div id="windGuAPI"></div><p>km/h</p>
+      <p>Wind direction: </p><div id="windDiAPI"></div><p>&deg;</p>
+    </div>
+    <script>
+      const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
+      let jsonResult = getWeather(url);
+      document.getElementById("tempAPI").innerHTML = getValue(jsonResult, "tempAPI");
+      document.getElementById("humidAPI").innerHTML = getValue(jsonResult, "humidAPI");
+      document.getElementById("precipAPI").innerHTML = getValue(jsonResult, "precipAPI");
+      document.getElementById("windSpAPI").innerHTML = getValue(jsonResult, "windSpAPI");
+      document.getElementById("windGuAPI").innerHTML = getValue(jsonResult, "windGuAPI");
+      document.getElementById("windDiAPI").innerHTML = getValue(jsonResult, "windDiAPI");
+      
+      async function getWeather(url) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+          }
+          const result = await response.json();
+          return result;
+        } 
+        catch (error) {
+          console.error(error.message);
+        }
+      }
+
+      async function getValue(jsonResult, valueID) {
+        switch(valueID) {
+          case "tempAPI":
+            return jsonResult.current.temperature_2m;
+            break;
+          case "humidAPI":
+            return jsonResult.current.relative_humidity_2m;
+            break;
+          case "precipAPI":
+            return jsonResult.current.precipitation;
+            break;
+          case "windSpAPI":
+            return jsonResult.current.wind_speed_10m;
+            break;
+          case "windGuAPI":
+            return jsonResult.current.wind_gusts_10m;
+            break;
+          case "windDiAPI":
+            return jsonResult.current.wind_direction_10m;
+            break;
+        }
+      }
+    </script>
+    <h2>Weather Forcast</h2>
+    <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
+  </div>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
   
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
