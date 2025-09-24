@@ -86,7 +86,7 @@
       <p>Wind direction: </p><p id="windDiAPI"></p><p>&deg;</p>
     </div>
     <script>
-      const url = "https://mp6714666b31589cff1e.free.beeceptor.com/dataRoee";
+      const url = "https://mp1be3e934ce7dad692c.free.beeceptor.com/dataRoee";
       //const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
       let jsonResult = getWeather(url);
       // document.getElementById("tempAPI").innerHTML = getValue(jsonResult, "tempAPI");
@@ -95,9 +95,13 @@
       // document.getElementById("windSpAPI").innerHTML = getValue(jsonResult, "windSpAPI");
       // document.getElementById("windGuAPI").innerHTML = getValue(jsonResult, "windGuAPI");
       // document.getElementById("windDiAPI").innerHTML = getValue(jsonResult, "windDiAPI");
-      document.getElementById("name").innerHTML = getValue(jsonResult, "name");
-      document.getElementById("age").innerHTML = getValue(jsonResult, "age");
-      document.getElementById("city").innerHTML = getValue(jsonResult, "city");
+      
+      // document.getElementById("name").innerHTML = getValue(jsonResult, "name");
+      document.getElementById("name").innerHTML = jsonResult.name;
+      // document.getElementById("age").innerHTML = getValue(jsonResult, "age");
+      document.getElementById("age").innerHTML = jsonResult.values.age;
+      // document.getElementById("city").innerHTML = getValue(jsonResult, "city");
+      document.getElementById("city").innerHTML = jsonResult.values.city;
       
       async function getWeather(url) {
         try {
