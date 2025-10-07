@@ -101,7 +101,7 @@
       // document.getElementById("age").innerHTML = getValue(jsonResult, "age");
       document.getElementById("age").innerHTML = jsonResult;
       // document.getElementById("city").innerHTML = getValue(jsonResult, "city");
-      document.getElementById("city").innerHTML = jsonResult.self;
+      document.getElementById("city").innerHTML = jsonResult.self.text();
       
       async function getWeather(url) {
         try {
