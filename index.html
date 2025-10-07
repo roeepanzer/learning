@@ -75,7 +75,7 @@
   <div id="weather">
     <h2>Current weather</h2>
     <div id="liveWeather">
-      <p>Name: </p><p id="name">n</p>
+      <p>data at 1, ID: </p><p id="name">n</p>
       <p>age: </p><p id="age">n</p>
       <p>city: </p><p id="city">n</p>
       <p>Temperature: </p><p id="tempAPI"></p><p>&deg;C</p>
@@ -97,11 +97,11 @@
       // document.getElementById("windDiAPI").innerHTML = getValue(jsonResult, "windDiAPI");
       
       // document.getElementById("name").innerHTML = getValue(jsonResult, "name");
-      document.getElementById("name").innerHTML = jsonResult.data;
+      document.getElementById("name").innerHTML = jsonResult.data[1].id;
       // document.getElementById("age").innerHTML = getValue(jsonResult, "age");
       document.getElementById("age").innerHTML = jsonResult.links;
       // document.getElementById("city").innerHTML = getValue(jsonResult, "city");
-      document.getElementById("city").innerHTML = jsonResult.links.current;
+      document.getElementById("city").innerHTML = jsonResult.links["current"];
       
       async function getWeather(url) {
         try {
