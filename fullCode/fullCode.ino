@@ -8,6 +8,7 @@
 // #include <FirebaseJson.h>
 #include <Wire.h>
 #include <BH1750.h>
+#include <Adafruit_AS7341.h>
 #include <DHT22.h>
 #include <ESP32Time.h>
 
@@ -37,7 +38,8 @@ AsyncClient aClient(ssl_client);
 RealtimeDatabase Database(databaseURL);
 
 //Objects of the BH1750 and the DHT22 and realtime clock of ESP
-BH1750 lightMeter;
+// BH1750 lightMeter;
+Adafruit_AS7341 lightMeter;
 DHT22 dht22(DHTpin);
 ESP32Time rtc;
 
@@ -81,7 +83,21 @@ void setup() {
 
   Wire.begin();
   lightMeter.begin();
+  lightMeter.setATIME(17); 
+  lightMeter.setASTEP(999);
+  lightMeter.setGain(AS7341_GAIN_4X);
 
+  /*
+    AS7341_GAIN_1X: The typical starter code defaults to GAIN_256X (designed for dark indoor rooms). 
+    For sunlight, keeping it there will instantly over-expose the sensor. 
+    Dropping it to 1X behaves like lowering a digital camera's sensitivity down to ISO 100.
+    setASTEP(999): Keeping ASTEP locked at 999 fixes your integration step interval at exactly \(2.78\text{ ms}\) per step.
+    setATIME(17): Setting ATIME to 17 creates 18 integration iterations (\(17 + 1\)). 
+    Mutliplied by the step interval, this yields a highly responsive \(50\text{ ms}\) window, 
+    giving the clear and near-infrared (NIR) spectrum channels enough time to sample accurately without clipping.
+    */
+
+  delay(1000);
 }
 
 void loop() {
@@ -98,16 +114,19 @@ void loop() {
       currentTime = millis();
       
       //BH1750 - measuring light
-      float lux = lightMeter.readLightLevel();
-      char luxPrint[8];
-      dtostrf(lux, 5, 1, luxPrint);
+      // float lux = lightMeter.readLightLevel();
+      // char luxPrint[8];
+      // dtostrf(lux, 5, 1, luxPrint);
+
+      uint16_t lightReading[12];
+      lightMeter.readAllChannels(lightReading);
       // Database.set<float>(aClient, "liveData/light", lux, processData);
 
       //DHT22 - measuring temp and humidity
       float temp = dht22.getTemperature();
       float humidity = dht22.getHumidity();
 
-      object_t payload = JsonFileCreator(lux, temp, humidity);
+      object_t payload = JsonFileCreator(lightReading, 12, temp, humidity);
       Database.set<object_t>(aClient, "liveData", payload, processData);
 
       // History: write a snapshot under historyData/<epoch> every historyInterval
@@ -122,19 +141,37 @@ void loop() {
   delay(10);
 }
 
-object_t JsonFileCreator(float lux, float temp, float humidity) {
-  object_t tempJson, humJson, luxJson, luxConvertedJson, timestamp, payload;
-  JsonWriter writer;
+// object_t JsonFileCreator(float lux, float temp, float humidity) {
+//   object_t tempJson, humJson, luxJson, luxConvertedJson, timestamp, payload;
+//   JsonWriter writer;
 
-  writer.create(luxJson, "/light", number_t(lux));
-  writer.create(luxConvertedJson, "/lightConverted", number_t(lux*0.0185));
-  writer.create(tempJson, "/temp", number_t(temp));
-  writer.create(humJson, "/humidity", number_t(humidity));
-  writer.create(timestamp, "/timestamp", number_t(rtc.getEpoch()));
+//   writer.create(luxJson, "/light", number_t(lux));
+//   writer.create(luxConvertedJson, "/lightConverted", number_t(lux*0.0185));
+//   writer.create(tempJson, "/temp", number_t(temp));
+//   writer.create(humJson, "/humidity", number_t(humidity));
+//   writer.create(timestamp, "/timestamp", number_t(rtc.getEpoch()));
 
-  writer.join(payload, 5, luxJson, luxConvertedJson, tempJson, humJson, timestamp);
+//   writer.join(payload, 5, luxJson, luxConvertedJson, tempJson, humJson, timestamp);
 
-  return payload;
+//   return payload;
+// }
+
+object_t JsonFileCreator(uint16_t lightReading[], int LR_len, float temp, float humidity) {
+    // Build the light array
+    String json = "{\"light\":[";
+    for (int i = 0; i < LR_len; i++) {
+        json += lightReading[i];
+        if (i < LR_len - 1) json += ",";
+    }
+    json += "]";
+
+    // Append scalar values
+    json += ",\"temp\":"     + String(temp, 2);
+    json += ",\"humidity\":" + String(humidity, 2);
+    json += ",\"timestamp\":" + String(rtc.getEpoch());
+    json += "}";
+
+    return object_t(json.c_str());
 }
 
 void WiFiReset() {
