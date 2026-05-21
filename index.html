@@ -82,7 +82,8 @@
   <div class="lightAmount">
     <input type="date" id="inputDate">
     <button onclick="getLightAmountGraph()">See the Light!</button>
-    <div>On the <nobr id="chosenDate">DD/MM/YYYY</nobr> you had <b><nobr id="lightAmountVal">amount</nobr></b> [mol]</div>
+    <!-- <div>On the <nobr id="chosenDate">DD/MM/YYYY</nobr> you had <b><nobr id="lightAmountVal">amount</nobr></b> [mol]</div> -->
+    <div id="lightAmountID" style="width:100%;max-width:1000px"></div>
   </div>
   <br></br>
   <div id="weather">
@@ -690,7 +691,7 @@
         yaxis: {range: [0,65000]}
       };
 
-      Plotly.newPlot("DailyGraph", data, layout);
+      Plotly.newPlot("lightAmountID", data, layout);
     }
 
     window.getLightAmount = async function () {
