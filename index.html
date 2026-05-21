@@ -94,6 +94,7 @@
       <div>Wind Speed: <nobr id="windSpAPI">windsp</nobr> km/h (Level <nobr id="windLeAPI">windLe</nobr>)</div>
       <div>Wind Gusts: <nobr id="windGuAPI">windgu</nobr> km/h (Level <nobr id="windGuLeAPI">windGuLe</nobr>)</div>
       <div>Wind direction: <nobr id="windDiAPI">winddi</nobr> &deg;</div>
+      <div>Cloud Cover: <nobr id="CCAPI">CC</nobr> %</div>
       <div>Timestamp: <nobr id="timestamp"></nobr></div>
     </div>
     
@@ -146,6 +147,7 @@
           document.getElementById("windDiAPI").innerHTML = result.current.wind_direction_10m;
           document.getElementById("windLeAPI").innerHTML = windLevelSet(result.current.wind_speed_10m);
           document.getElementById("windGuLeAPI").innerHTML = windLevelSet(result.current.wind_gusts_10m);
+          document.getElementById("CCAPI").innerHTML = result.current.cloud_cover;
           document.getElementById("timestamp").innerHTML = result.current.time;
 
           if(result.current.temperature_2m >30){
