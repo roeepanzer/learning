@@ -132,7 +132,7 @@ void loop() {
       // History: write a snapshot under historyData/<epoch> every historyInterval
       if (millis() - lastHistoryTime >= historyInterval) {
         lastHistoryTime = millis();
-        String pathHis = "historyData/" + String(rtc.getEpoch());
+        String pathHis = "historyData/" + String(rtc.getEpoch()+7200); //compensating for different time zones AND +1 hour for summer time
 
         Database.set<object_t>(aClient, pathHis, payload, processData);
       }

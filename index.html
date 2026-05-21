@@ -81,7 +81,7 @@
   <h2>Daily light amount</h2>
   <div class="lightAmount">
     <input type="date" id="inputDate">
-    <button onclick="getLightAmount()">See the Light!</button>
+    <button onclick="getLightAmountGraph()">See the Light!</button>
     <div>On the <nobr id="chosenDate">DD/MM/YYYY</nobr> you had <b><nobr id="lightAmountVal">amount</nobr></b> [mol]</div>
   </div>
   <br></br>
@@ -610,7 +610,7 @@
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
           if(date == chosenDate) {
             const timeHour = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[0];
-            let localTimeHour = parseInt(timeHour)+2;
+            let localTimeHour = parseInt(timeHour);
             const timeMinute = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[1];
             const temp = childSnapshot.val().temp;
             const humid = childSnapshot.val().humidity;
@@ -629,6 +629,65 @@
       const layout = {
         xaxis: {range: [0,xTime.length], title: "Time of the day"},
         yaxis: {range: [0,100]}
+      };
+
+      Plotly.newPlot("DailyGraph", data, layout);
+    }
+
+    window.getLightAmountGraph = async function() {
+      const chosenDate = document.getElementById("inputDateGraph").value;
+      const snapshot = await get(ref(db, 'historyData'));
+      const xTime = []; //time in hh:mm converted from epoch to hh:mm
+      const yViolet = []; //Violet lengthwave 405 nm – 425 nm
+      const yBlue = []; //Blue lengthwave 435 nm – 455 nm
+      const yCyan = []; //Cyan Lengthwave 470 nm – 490 nm
+      const yGreen = []; //Green Lengthwave 505 nm – 525 nm
+      const yGreenYellow = []; //Green-Yellow Lengthwave 545 nm – 565 nm
+      const yYellow = []; //Yellow Lengthwave 580 nm – 600 nm
+      const yOrangeRed = []; //Orange-Red Lengthwave 620 nm – 640 nm
+      const yRed = []; //Red Lengthwave 670 nm - 690 nm
+      const yClear = []; //Ambient light (intensity/ brightness) measure
+
+      if(snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const epochKey = childSnapshot.key;
+          const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
+          if(date == chosenDate) {
+            const timeHour = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[0];
+            let localTimeHour = parseInt(timeHour);
+            const timeMinute = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[1];
+
+            const temp = childSnapshot.val().temp;
+            const humid = childSnapshot.val().humidity;
+            xTime.push(localTimeHour.toString() + ":" + timeMinute);
+            yViolet.push(childSnapshot.val().light[0]);
+            yBlue.push(childSnapshot.val().light[1]); //Blue lengthwave 435 nm – 455 nm
+            yCyan.push(childSnapshot.val().light[2]); //Cyan Lengthwave 470 nm – 490 nm
+            yGreen.push(childSnapshot.val().light[3]); //Green Lengthwave 505 nm – 525 nm
+            yGreenYellow.push(childSnapshot.val().light[4]); //Green-Yellow Lengthwave 545 nm – 565 nm
+            yYellow.push(childSnapshot.val().light[5]); //Yellow Lengthwave 580 nm – 600 nm
+            yOrangeRed.push(childSnapshot.val().light[6]); //Orange-Red Lengthwave 620 nm – 640 nm
+            yRed.push(childSnapshot.val().light[7]); //Red Lengthwave 670 nm - 690 nm
+            yClear.push(childSnapshot.val().light[8]); //Ambient light (intensity/ brightness) measure
+          }
+        });
+      }
+      else {
+        console.error("No data found");
+      }
+      
+      const data = [{x: xTime, y: yViolet, mode: "lines"}, 
+                    {x: xTime, y: yBlue, mode: "lines"},
+                    {x: xTime, y: yCyan, mode: "lines"},
+                    {x: xTime, y: yGreen, mode: "lines"},
+                    {x: xTime, y: yGreenYellow, mode: "lines"},
+                    {x: xTime, y: yYellow, mode: "lines"},
+                    {x: xTime, y: yOrangeRed, mode: "lines"},
+                    {x: xTime, y: yRed, mode: "lines"},
+                    {x: xTime, y: yClear, mode: "lines"}];
+      const layout = {
+        xaxis: {range: [0,xTime.length], title: "Time of the day"},
+        yaxis: {range: [0,65000]}
       };
 
       Plotly.newPlot("DailyGraph", data, layout);
