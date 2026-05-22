@@ -376,5 +376,11 @@ h2 {
   
   .forecastItem { width: 75px; padding: 8px 6px; font-size: 0.7rem; }
   
-  .lightAmount { /*flex-direction: column; align-items: stretch;*/ }
+  .lightAmount > div:last-child {
+    width: 100%;
+    min-height: 300px;   /* ← add this */
+    padding-top: 10px;
+    color: var(--gray);
+  }
+  
 }
