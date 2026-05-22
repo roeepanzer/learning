@@ -384,7 +384,7 @@ h2 {
   }
 
   .lightAmount {
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap;
     gap: 15px;
     align-items: stretch;   /* ← was center */
