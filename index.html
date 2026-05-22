@@ -691,9 +691,9 @@
         xaxis: {range: [0,xTime.length], title: "Time of the day"},
         yaxis: {range: [0,65000]}
       };
-
-      // Plotly.newPlot("lightAmountID", data, layout);
-      Plotly.react("lightAmountID", data, layout);
+      Plotly.purge("lightAmountID");
+      Plotly.newPlot("lightAmountID", data, layout);
+      // Plotly.react("lightAmountID", data, layout);
     }
 
     window.getLightAmount = async function () {
