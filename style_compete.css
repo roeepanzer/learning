@@ -376,5 +376,5 @@ h2 {
   
   .forecastItem { width: 75px; padding: 8px 6px; font-size: 0.7rem; }
   
-  .lightAmount { flex-direction: column; align-items: stretch; }
+  .lightAmount { /*flex-direction: column;*/ align-items: stretch; }
 }
