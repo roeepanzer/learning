@@ -83,7 +83,7 @@
     <input type="date" id="inputDate">
     <button onclick="getLightAmountGraph()">See the Light!</button>
     <!-- <div>On the <nobr id="chosenDate">DD/MM/YYYY</nobr> you had <b><nobr id="lightAmountVal">amount</nobr></b> [mol]</div> -->
-    <div id="lightAmountID" style="width:100%;height:100%"></div>
+    <div id="lightAmountID"></div> <!-- style="width:100%;height:100%" -->
   </div>
   <br></br>
   <div id="weather">
@@ -691,8 +691,8 @@
         yaxis: {range: [0,65000]}
       };
 
-      // Plotly.newPlot("lightAmountID", data, layout);
-      Plotly.react("lightAmountID", data, layout);
+      Plotly.newPlot("lightAmountID", data, layout);
+      // Plotly.react("lightAmountID", data, layout);
     }
 
     window.getLightAmount = async function () {

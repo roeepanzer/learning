@@ -378,7 +378,7 @@ h2 {
   
   .lightAmount > div:last-child {
     width: 100%;
-    min-height: 300px;
+    height: 400px;
     padding-top: 10px;
     color: var(--gray);
   }
