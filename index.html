@@ -691,7 +691,8 @@
         yaxis: {range: [0,65000]}
       };
 
-      Plotly.newPlot("lightAmountID", data, layout);
+      // Plotly.newPlot("lightAmountID", data, layout);
+      Plotly.react("lightAmountID", data, layout);
     }
 
     window.getLightAmount = async function () {
