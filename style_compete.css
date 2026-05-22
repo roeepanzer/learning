@@ -378,9 +378,16 @@ h2 {
   
   .lightAmount > div:last-child {
     width: 100%;
-    min-height: 300px;   /* ← add this */
+    min-height: 300px;
     padding-top: 10px;
     color: var(--gray);
   }
+
+  .lightAmount {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: stretch;   /* ← was center */
+  }  
   
 }
