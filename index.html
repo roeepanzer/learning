@@ -743,10 +743,14 @@
     async function liveLight() {
       onValue(ref(db, 'liveData/light'), (snapshot) => {
         if(snapshot.exists()) {
-          const value = calcMagnitude(snapshot.val());
+          // const value = calcMagnitude(snapshot.val());
           console.log("snapshot.val(): ", snapshot.val())
-          console.log("Live light value:", value)
-          lightEl.textContent = value.PromiseResult;//Math.round(value);
+          // console.log("Live light value:", value)
+          calcMagnitude(snapshot.val()).then((lightMagn) => {
+            console.log("result: ", lightMagn);
+            lightEl.textContent = lightMagn;
+          });
+          // lightEl.textContent = value;//Math.round(value);
         }
       });
     }
