@@ -748,7 +748,7 @@
           // console.log("Live light value:", value)
           calcMagnitude(snapshot.val()).then((lightMagn) => {
             console.log("result: ", lightMagn);
-            lightEl.textContent = lightMagn;
+            lightEl.textContent = Math.round(lightMagn);
           });
           // lightEl.textContent = value;//Math.round(value);
         }
