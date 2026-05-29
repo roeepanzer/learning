@@ -744,6 +744,7 @@
       onValue(ref(db, 'liveData/light'), (snapshot) => {
         if(snapshot.exists()) {
           const value = calcMagnitude(snapshot.val());
+          console.log("Live light value:", value)
           lightEl.textContent = Math.round(parseInt(value));
         }
       });
@@ -751,9 +752,12 @@
 
     async function calcMagnitude(lightArr) {
       const sum = 0;
+      console.log("beginning of light magnitude calculation");
       for (let i=0; i<lightArr.length; i++){
         sum += Math.pow(parseFloat(lightArr[i]), 2);
+        console.log("sum up to now: ", sum);
       }
+      console.log("end of light magnitude calculation");
       return Math.sqrt(sum);
     }
 
