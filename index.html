@@ -662,7 +662,7 @@
             // const temp = childSnapshot.val().temp;
             // const humid = childSnapshot.val().humidity;
             xTime.push(localTimeHour.toString() + ":" + timeMinute);
-            yViolet.push(childSnapshot.val().light[0]);
+            yViolet.push(childSnapshot.val().light[0]); //Violet Lengthwave 405 nm - 425 nm
             yBlue.push(childSnapshot.val().light[1]); //Blue lengthwave 435 nm – 455 nm
             yCyan.push(childSnapshot.val().light[2]); //Cyan Lengthwave 470 nm – 490 nm
             yGreen.push(childSnapshot.val().light[3]); //Green Lengthwave 505 nm – 525 nm
@@ -743,10 +743,18 @@
     async function liveLight() {
       onValue(ref(db, 'liveData/light'), (snapshot) => {
         if(snapshot.exists()) {
-          const value = snapshot.val();
+          const value = calcMagnitude(snapshot.val());
           lightEl.textContent = Math.round(parseInt(value));
         }
       });
+    }
+
+    async function calcMagnitude(lightArr) {
+      const sum = 0;
+      for (let i=0; i<lightArr.length; i++){
+        sum += Math.pow(parseFloat(lightArr[i]), 2);
+      }
+      return Math.sqrt(sum);
     }
 
     async function liveLightConverted() {
