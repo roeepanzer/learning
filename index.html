@@ -744,6 +744,7 @@
       onValue(ref(db, 'liveData/light'), (snapshot) => {
         if(snapshot.exists()) {
           const value = calcMagnitude(snapshot.val());
+          console.log("snapshot.val(): ", snapshot.val())
           console.log("Live light value:", value)
           lightEl.textContent = Math.round(value);
         }
