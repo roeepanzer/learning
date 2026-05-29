@@ -48,7 +48,7 @@
       <div class="gauge__title">Light</div>
       <div class="gauge__dial">
         <div class="gauge__value" id="lightView">NoLight</div>
-        <div class="lightConverted"><nobr id="lightConverted">NoValue</nobr></div> <!--µmol·m⁻²·s⁻¹-->
+        <!-- <div class="lightConverted"><nobr id="lightConverted">NoValue</nobr></div> µmol·m⁻²·s⁻¹ -->
         <div class="gauge__unit">lux</div>
       </div>
     </section>
@@ -745,7 +745,7 @@
         if(snapshot.exists()) {
           const value = calcMagnitude(snapshot.val());
           console.log("Live light value:", value)
-          lightEl.textContent = Math.round(parseInt(value));
+          lightEl.textContent = Math.round(value);
         }
       });
     }
@@ -753,7 +753,7 @@
     async function calcMagnitude(lightArr) {
       let sum = 0;
       console.log("beginning of light magnitude calculation");
-      for (let i=0; i<lightArr.length; i++){
+      for (let i=0; i<lightArr.length-2; i++){
         sum += Math.pow(parseFloat(lightArr[i]), 2);
         console.log("sum up to now: ", sum);
       }
