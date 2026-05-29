@@ -679,14 +679,14 @@
       }
       
       const data = [{x: xTime, y: yViolet, mode: "lines", color: "#6700b3"}, 
-                    {x: xTime, y: yBlue, mode: "lines"},
-                    {x: xTime, y: yCyan, mode: "lines"},
-                    {x: xTime, y: yGreen, mode: "lines"},
-                    {x: xTime, y: yGreenYellow, mode: "lines"},
-                    {x: xTime, y: yYellow, mode: "lines"},
-                    {x: xTime, y: yOrangeRed, mode: "lines"},
-                    {x: xTime, y: yRed, mode: "lines"},
-                    {x: xTime, y: yClear, mode: "lines"}];
+                    {x: xTime, y: yBlue, mode: "lines", color:"#0038FF"},
+                    {x: xTime, y: yCyan, mode: "lines", color:"#0080ff"},
+                    {x: xTime, y: yGreen, mode: "lines", color:"#00ff8e"},
+                    {x: xTime, y: yGreenYellow, mode: "lines", color:"#3fff54"},
+                    {x: xTime, y: yYellow, mode: "lines", color:"#E5C100"},
+                    {x: xTime, y: yOrangeRed, mode: "lines", color:"#FF0000"},
+                    {x: xTime, y: yRed, mode: "lines", color:"#CC0000"},
+                    {x: xTime, y: yClear, mode: "markers", color:"#000000"}];
       const layout = {
         xaxis: {range: [0,xTime.length], title: "Time of the day"},
         yaxis: {range: [0,6000]},
