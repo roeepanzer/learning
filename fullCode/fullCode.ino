@@ -47,7 +47,7 @@ const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600; //GMT+1
 const int   daylightOffset_sec = 3600; //Summer time +1
 bool timeInitialized = false;
-const int timeInterval = 10000; //10 seconds
+const int timeInterval = 20000; //20 seconds
 const int historyInterval = 1800000; //30 minutes
 long currentTime = 0;
 long lastHistoryTime = millis()-historyInterval;
@@ -85,7 +85,7 @@ void setup() {
   lightMeter.begin();
   lightMeter.setATIME(17); 
   lightMeter.setASTEP(999);
-  lightMeter.setGain(AS7341_GAIN_4X);
+  lightMeter.setGain(AS7341_GAIN_8X);
 
   /*
     AS7341_GAIN_1X: The typical starter code defaults to GAIN_256X (designed for dark indoor rooms). 
